@@ -26,4 +26,8 @@ export class TasksService {
     this.tasks.push(newTask);
     return newTask;
   }
+
+  getTaskById(id: string): Task {
+    return this.tasks.find((item) => item.id === id);
+  }
 }
