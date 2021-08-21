@@ -41,5 +41,6 @@ export class TasksService {
     const { status } = updateTaskStatusDto;
     const task = this.getTaskById(id);
     task.status = status;
+    return task;
   }
 }
