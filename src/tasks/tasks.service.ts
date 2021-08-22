@@ -7,6 +7,7 @@ import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { Task } from './task.entity';
 import { TasksRepository } from './tasks.repository';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class TasksService {
@@ -57,10 +58,15 @@ export class TasksService {
     }
   }
 
-  // updateTaskStatus(id: string, updateTaskStatusDto: UpdateTaskStatusDto) {
-  //   const { status } = updateTaskStatusDto;
-  //   const task = this.getTaskById(id);
-  //   task.status = status;
-  //   return task;
-  // }
+  async updateTaskStatus(
+    id: string,
+    updateTaskStatusDto: UpdateTaskStatusDto,
+  ): Promise<void> {
+    const { status } = updateTaskStatusDto;
+    const queryResult = await this.tasksRepository.update(id, { status });
+
+    if (queryResult.affected === 0) {
+      throw new NotFoundException(`Task with ID ${id} not found`);
+    }
+  }
 }
